@@ -15,6 +15,7 @@ var config={
           paths: {
               html: './src/*.html',
               js: './src/**/*.js',
+              images: './src/images/*',
               css: [
                    'node_modules/bootstrap/dist/css/bootstrap.min.css',
                    'node_modules/bootstrap/dist/css/bootstrap.theme.min.css'
@@ -36,17 +37,17 @@ gulp.task('connect',function(){
 gulp.task('open',['connect'],function(){
      gulp.src('dist/index.html').pipe(open('',{url:config.devBaseURL + ':' + config.port + '/'}));
 });
-
+//Migrate html to dist folder
 gulp.task('html',function(){
      gulp.src(config.paths.html).pipe(gulp.dest(config.paths.dist)).pipe(connect.reload());
 })
-
+//Migrate js to dist folder
 gulp.task('js',function(){
      browserify(config.paths.mainJS).transform(reactify).bundle()
      .on('error',console.error.bind(console)).pipe(source('bundle.js'))
      .pipe(gulp.dest(config.paths.dist + '/scripts')).pipe(connect.reload());
 });
-
+//Migrate css files of bootstrap to dist folder
 gulp.task('css',function(){
      gulp.src(config.paths.css).pipe(concat('bundle.css')).pipe(gulp.dest(config.paths.dist + '/css'));
 });
@@ -55,9 +56,19 @@ gulp.task('lint',function(){
      return gulp.src(config.paths.js).pipe(lint({config: 'eslint.config.json'})).pipe(lint.format());
 });
 
+//Migrate images to dist folder
+gulp.task('images',function(){
+      gulp.src(config.paths.images).pipe(gulp.dest(config.paths.dist + '/images'))
+      .pipe(connect.reload());
+
+      //publish favicon
+      gulp.src('./src/favicon.ico').pipe(gulp.dest(config.paths.dist));
+});
+
 gulp.task('watch',function(){
      gulp.watch(config.paths.html,['html']);
      gulp.watch(config.paths.js,['js','lint']);
 })
 
-gulp.task('default',['html','js','css','open','watch','lint']);
+//start executing the task by as given sequence
+gulp.task('default',['html','js','css','images','open','watch','lint']);

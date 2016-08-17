@@ -52946,12 +52946,12 @@ var AuthorList = React.createClass({displayName: "AuthorList",
 
       var author = this.props.author;
       return (
-        React.createElement("div", null, 
+        
           React.createElement("tr", null, 
               React.createElement("td", null, React.createElement("a", {href: '/#authors/' + author.id}, author.id)), 
               React.createElement("td", null, author.firstName, " ", author.lastName)
          )
-        )
+
      );
     }
 });

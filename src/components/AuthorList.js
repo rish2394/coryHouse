@@ -6,12 +6,12 @@ var AuthorList = React.createClass({
 
       var author = this.props.author;
       return (
-        <div>
+        
           <tr>
               <td><a href={'/#authors/' + author.id}>{author.id}</a></td>
               <td>{author.firstName} {author.lastName}</td>
          </tr>
-        </div>
+
      );
     }
 });

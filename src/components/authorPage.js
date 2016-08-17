@@ -26,8 +26,10 @@ var AuthorPage = React.createClass({
           <h1>Authors</h1>
           <table className='table'>
               <thead>
+              <tr>
                   <th>ID</th>
                   <th>Name</th>
+              </tr>
               </thead>
               <tbody>
                   {authorsData}

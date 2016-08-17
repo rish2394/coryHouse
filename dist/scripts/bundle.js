@@ -52946,7 +52946,6 @@ var AuthorList = React.createClass({displayName: "AuthorList",
 
       var author = this.props.author;
       return (
-        
           React.createElement("tr", null, 
               React.createElement("td", null, React.createElement("a", {href: '/#authors/' + author.id}, author.id)), 
               React.createElement("td", null, author.firstName, " ", author.lastName)
@@ -53010,8 +53009,10 @@ var AuthorPage = React.createClass({displayName: "AuthorPage",
           React.createElement("h1", null, "Authors"), 
           React.createElement("table", {className: "table"}, 
               React.createElement("thead", null, 
+              React.createElement("tr", null, 
                   React.createElement("th", null, "ID"), 
                   React.createElement("th", null, "Name")
+              )
               ), 
               React.createElement("tbody", null, 
                   authorsData

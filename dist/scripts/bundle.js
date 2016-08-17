@@ -53039,7 +53039,7 @@ var Header = React.createClass({displayName: "Header",
                   ), 
                   React.createElement("ul", {className: "nav navbar-nav"}, 
                      React.createElement("li", null, React.createElement("a", {href: "/"}, "Home")), 
-                     React.createElement("li", null, React.createElement("a", {href: "/#234"}, "About")), 
+                     React.createElement("li", null, React.createElement("a", {href: "/#about"}, "About")), 
                      React.createElement("li", null, React.createElement("a", {href: "/#authors"}, "Authors"))
                   )
                )

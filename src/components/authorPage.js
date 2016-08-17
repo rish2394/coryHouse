@@ -1,24 +1,25 @@
+"use strict";
 var React = require('react');
 var AuthorAPI = require('../mockAPI/authorAPI');
 var AuthorList = require('./AuthorList');
 
 var AuthorPage = React.createClass({
     getInitialState: function(){
-      return{
+      return {
          authors: []
-      }
+      };
     },
     componentWillMount: function(){
       this.setState({
          authors: AuthorAPI.getAllAuthors()
-      })
+      });
     },
     render: function(){
-         var authorsData=[];
-
+         var authorsData = [];
+        console.log('hello');
          this.state.authors.forEach(function(author){
-            authorsData.push(<AuthorList key={author.id} author={author}></AuthorList>);``
-         }
+            authorsData.push(<AuthorList key={author.id} author={author}></AuthorList>);
+         });
 
     return (
       <div>
@@ -34,6 +35,7 @@ var AuthorPage = React.createClass({
           </table>
       </div>
     );
+  }
 });
 
-module.exports=AuthorPage;
+module.exports = AuthorPage;

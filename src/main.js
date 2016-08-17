@@ -26,7 +26,9 @@ var AuthorPage = require('./components/authorPage.js');
                     return (
                       <div>
                            <Header/>
-                           <Child/>
+                           <div className='container'>
+                               <Child/>
+                           </div>
                       </div>
                     );
                }

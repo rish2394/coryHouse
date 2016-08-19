@@ -1,20 +1,20 @@
 "use strict";
 var React = require('react');
-var Link = require('react-router');
-var IndexLink = require('react-router');
+var Router = require('react-router');
+var Link = Router.Link;
 
 var Header = React.createClass({
      render: function(){
         return (
              <div className="navbar navbar-default">
                <div className="container-fluid">
-                  <a to="/" className="navbar-brand">
+                  <Link to="/" className="navbar-brand">
                       <img src="images/pluralsight-logo.png"/>
-                  </a>
+                  </Link>
                   <ul className="nav navbar-nav">
-                     <li><a href="/">Home</a></li>
-                     <li><a href="/#about">About</a></li>
-                     <li><a href="/#authors">Authors</a></li>
+                     <li><Link to="/">Home</Link></li>
+                     <li><Link to="/about">About</Link></li>
+                     <li><Link to="/authors">Authors</Link></li>
                   </ul>
                </div>
              </div>

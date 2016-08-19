@@ -9,7 +9,7 @@ var AuthorPage = React.createClass({
          authors: []
       };
     },
-    componentWillMount: function(){
+    componentDidMount: function(){
       this.setState({
          authors: AuthorAPI.getAllAuthors()
       });

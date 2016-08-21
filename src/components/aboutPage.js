@@ -2,6 +2,14 @@
 var React = require('react');
 
 var About = React.createClass({
+  statics: {
+    onEnter: function(location, replaceWith){
+
+    },
+    onLeave: function(){
+
+    }
+  },
    render: function(){
         return (
             <div>

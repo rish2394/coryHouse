@@ -52983,9 +52983,10 @@ module.exports = Main;
 "use strict";
 
 var React = require('react');
-
+var Link = require('react-router').Link;
 var NotFoundPage = React.createClass({displayName: "NotFoundPage",
         render: function(){
+          console.log('In NotFoundPage');
           return (
             React.createElement("div", null, 
                  React.createElement("h1", null, "Page Not Found!"), 
@@ -52997,11 +52998,19 @@ var NotFoundPage = React.createClass({displayName: "NotFoundPage",
 });
 
 module.exports = NotFoundPage;
-},{"react":237}],243:[function(require,module,exports){
+},{"react":237,"react-router":57}],243:[function(require,module,exports){
 "use strict";
 var React = require('react');
 
 var About = React.createClass({displayName: "About",
+  statics: {
+    onEnter: function(location, replaceWith){
+
+    },
+    onLeave: function(){
+
+    }
+  },
    render: function(){
         return (
             React.createElement("div", null, 
@@ -53122,17 +53131,21 @@ var Header = require('./components/header.js');
 var AuthorPage = require('./components/authorPage.js');
 var Main = require('./components/Main.js');
 var {Link, IndexRoute, Router, Route, hashHistory} = require('react-router');
-var NotFoundPage=require('./components/NotFoundPage.js');
-
+var NotFoundPage = require('./components/NotFoundPage.js');
+var Redirect = require('react-router').Redirect;
 
 ReactDOM.render(
                 React.createElement(Router, {history: hashHistory}, 
                   React.createElement(Route, {path: "/", component: Main}, 
                      React.createElement(IndexRoute, {component: Home}), 
                      React.createElement(Route, {path: "authors", component: AuthorPage}), 
-                     React.createElement(Route, {path: "about", component: About})
-                  ), 
-                  React.createElement(Route, {status: "404", path: "*", component: NotFoundPage})
+                     React.createElement(Route, {path: "about", component: About}), 
+                     React.createElement(Redirect, {from: "awthors", to: "authors"}), 
+                     React.createElement(Redirect, {from: "about-us", to: "about"}), 
+                     React.createElement(Redirect, {from: "about/*", to: "about"}), 
+                     React.createElement(Route, {path: "*", component: NotFoundPage})
+                  )
+
                 ),document.getElementById('app')
 );
 },{"./components/Main.js":241,"./components/NotFoundPage.js":242,"./components/aboutPage.js":243,"./components/authorPage.js":244,"./components/header.js":245,"./components/homePage.js":246,"jquery":23,"react":237,"react-dom":27,"react-router":57}],248:[function(require,module,exports){

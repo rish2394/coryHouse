@@ -7,16 +7,20 @@ var Header = require('./components/header.js');
 var AuthorPage = require('./components/authorPage.js');
 var Main = require('./components/Main.js');
 var {Link, IndexRoute, Router, Route, hashHistory} = require('react-router');
-var NotFoundPage=require('./components/NotFoundPage.js');
-
+var NotFoundPage = require('./components/NotFoundPage.js');
+var Redirect = require('react-router').Redirect;
 
 ReactDOM.render(
                 <Router history={hashHistory} >
                   <Route path='/' component={Main}>
                      <IndexRoute component={Home}/>
                      <Route path="authors" component={AuthorPage}/>
-                     <Route path="about" component={About}/>
+                     <Route path="about" component={About}/>     
+                     <Redirect from='awthors' to='authors'/>
+                     <Redirect from='about-us' to='about'/>
+                     <Redirect from='about/*' to='about'/>
+                     <Route path="*" component={NotFoundPage}/>
                   </Route>
-                  <Route status="404" path="*" component={NotFoundPage}></Route>
+
                 </Router>,document.getElementById('app')
 );

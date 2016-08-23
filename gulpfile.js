@@ -11,7 +11,7 @@ var lint=require('gulp-eslint');//Lint JS files,including JSX
 
 var config={
           port:9000,
-
+          devBaseURL:'http://localhost',
           paths: {
               html: './src/*.html',
               js: './src/**/*.js',

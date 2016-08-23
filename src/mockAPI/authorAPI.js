@@ -7,7 +7,7 @@ var _ = require('lodash');
 //This could be performed on the server in a real app.Just stubbing in
 
 var _generateId = function(author){
-  return authors.firstName.toLowerCase() + '-' + authors.lastName.toLowerCase();
+  return author.firstName.toLowerCase() + '-' + author.lastName.toLowerCase();
 };
 
 var _clone = function(item){
@@ -27,7 +27,7 @@ var AuthorAPI = {
     //Pretend an AJAX calll to web API is made here
     console.log("Pretend this just saved the author to the DB via AJAX call");
 
-    if(authors.id){
+    if(author.id){
       var existingAuthorIndex = _.indexOf(authors, _.find(authors, {id: author.id}));
       authors.splice(existingAuthorIndex, 1, author);
     }else{

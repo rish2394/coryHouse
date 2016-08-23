@@ -52940,6 +52940,37 @@ arguments[4][20][0].apply(exports,arguments)
 },{"_process":25,"dup":20}],240:[function(require,module,exports){
 "use strict";
 var React = require('react');
+var Input = require('./textInput');
+
+var AuthorForm = React.createClass({displayName: "AuthorForm",
+    render: function(){
+      console.log('in author form');
+      return (
+          React.createElement("form", null, 
+
+                 React.createElement(Input, {
+                       name: "firstName", 
+                       label: "FirstName", 
+                       onChange: this.props.onChange, 
+                       value: this.props.author.firstName}), 
+                React.createElement("br", null), 
+
+                React.createElement(Input, {
+                       name: "lastName", 
+                       label: "LastName", 
+                       onChange: this.props.onChange, 
+                       value: this.props.author.lastName}), 
+                React.createElement("br", null), 
+                React.createElement("input", {type: "submit", value: "save", className: "btn btn-success", onClick: this.props.onSave})
+          )
+      );
+    }
+});
+
+module.exports = AuthorForm;
+},{"./textInput":249,"react":237}],241:[function(require,module,exports){
+"use strict";
+var React = require('react');
 var Link = require('react-router').Link;
 var AuthorList = React.createClass({displayName: "AuthorList",
   propTypes: {
@@ -52958,7 +52989,7 @@ var AuthorList = React.createClass({displayName: "AuthorList",
     }
 });
 module.exports = AuthorList;
-},{"react":237,"react-router":57}],241:[function(require,module,exports){
+},{"react":237,"react-router":57}],242:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
@@ -52979,7 +53010,7 @@ var Main = React.createClass({displayName: "Main",
 });
 
 module.exports = Main;
-},{"./header":245,"react":237}],242:[function(require,module,exports){
+},{"./header":246,"react":237}],243:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
@@ -52998,17 +53029,23 @@ var NotFoundPage = React.createClass({displayName: "NotFoundPage",
 });
 
 module.exports = NotFoundPage;
-},{"react":237,"react-router":57}],243:[function(require,module,exports){
+},{"react":237,"react-router":57}],244:[function(require,module,exports){
 "use strict";
 var React = require('react');
 
 var About = React.createClass({displayName: "About",
   statics: {
-    onEnter: function(location, replaceWith){
-
+    willTransitionTo: function(transition, param, query, callback){
+          if(!confirm('Are you sure you read a page that\'s this boring/')){
+               transition.abort();
+          }else{
+            callback();
+          }
     },
-    onLeave: function(){
-
+    willTransitionFrom: function(transition, component){
+          if(!confirm('Are you sure to leave this page?')){
+              transition.abort();
+          }
     }
   },
    render: function(){
@@ -53031,12 +53068,12 @@ var About = React.createClass({displayName: "About",
 });
 
 module.exports = About;
-},{"react":237}],244:[function(require,module,exports){
+},{"react":237}],245:[function(require,module,exports){
 "use strict";
 var React = require('react');
 var AuthorAPI = require('../mockAPI/authorAPI');
 var AuthorList = require('./AuthorList');
-
+var Link = require('react-router').Link;
 var AuthorPage = React.createClass({displayName: "AuthorPage",
     getInitialState: function(){
       return {
@@ -53058,6 +53095,7 @@ var AuthorPage = React.createClass({displayName: "AuthorPage",
     return (
       React.createElement("div", null, 
           React.createElement("h1", null, "Authors"), 
+          React.createElement(Link, {to: "/addAuthor", className: "btn btn-default"}, "Add Author"), 
           React.createElement("table", {className: "table"}, 
               React.createElement("thead", null, 
               React.createElement("tr", null, 
@@ -53075,7 +53113,7 @@ var AuthorPage = React.createClass({displayName: "AuthorPage",
 });
 
 module.exports = AuthorPage;
-},{"../mockAPI/authorAPI":248,"./AuthorList":240,"react":237}],245:[function(require,module,exports){
+},{"../mockAPI/authorAPI":251,"./AuthorList":241,"react":237,"react-router":57}],246:[function(require,module,exports){
 "use strict";
 var React = require('react');
 var Router = require('react-router');
@@ -53101,7 +53139,7 @@ var Header = React.createClass({displayName: "Header",
 });
 
 module.exports = Header;
-},{"react":237,"react-router":57}],246:[function(require,module,exports){
+},{"react":237,"react-router":57}],247:[function(require,module,exports){
 "use strict";
 
 var React = require('react');
@@ -53121,7 +53159,77 @@ var Home = React.createClass({displayName: "Home",
 });
 
 module.exports = Home;
-},{"react":237,"react-router":57}],247:[function(require,module,exports){
+},{"react":237,"react-router":57}],248:[function(require,module,exports){
+'use strict';
+var React = require('react');
+var AuthorForm = require('./AuthorForm');
+var AuthorAPI = require('../mockAPI/authorAPI');
+
+var ManageAuthorPage = React.createClass({displayName: "ManageAuthorPage",
+
+      getInitialState: function(){
+        return {
+            author: {id: '', firstName: '', lastName: ''}
+        };
+      },
+      _onSave: function(event){
+           event.preventDefault();
+           AuthorAPI.saveAuthor(this.state.author);
+
+      },
+     _onChange: function(event){
+           console.log('inside _onChange function in manageAuthorPage');
+           var field = event.target.name;
+           var value = event.target.value;
+           this.state.author[field] = value;
+           return this.setState({author: this.state.author});
+      },
+
+      render: function(){
+        return (
+          React.createElement("div", null, 
+              React.createElement("h1", null, "Manage Author"), 
+              React.createElement(AuthorForm, {author: this.state.author, onChange: this._onChange, onSave: this._onSave})
+          )
+
+        );
+      }
+});
+
+module.exports = ManageAuthorPage;
+},{"../mockAPI/authorAPI":251,"./AuthorForm":240,"react":237}],249:[function(require,module,exports){
+'use strict';
+var React = require('react');
+
+var Input = React.createClass({displayName: "Input",
+
+       render: function(){
+
+         var wrapperClass = 'form-group';
+         if(this.props.error && this.props.error.length > 0){
+             wrapperClass += ' ' + 'has-error';//has-error class provided by Bootstrap
+         }
+
+         return (
+                React.createElement("div", {className: wrapperClass}, 
+                   React.createElement("label", {htmlFor: this.props.name}, this.props.label), 
+                   React.createElement("div", {className: "field"}, 
+                       React.createElement("input", {type: "text", 
+                              name: this.props.name, 
+                              className: "form-control", 
+                              placeholder: this.props.placeholder, 
+                              ref: this.props.name, 
+                              value: this.props.value, 
+                              onChange: this.props.onChange}), 
+                        React.createElement("div", {className: "input"}, this.props.error)
+                   )
+              )
+         );
+       }
+});
+
+module.exports = Input;
+},{"react":237}],250:[function(require,module,exports){
 var jQuery = require('jquery');
 var React = require('react');
 var ReactDOM = require('react-dom');
@@ -53133,6 +53241,7 @@ var Main = require('./components/Main.js');
 var {Link, IndexRoute, Router, Route, hashHistory} = require('react-router');
 var NotFoundPage = require('./components/NotFoundPage.js');
 var Redirect = require('react-router').Redirect;
+var ManageAuthorPage = require('./components/manageAuthorPage.js');
 
 ReactDOM.render(
                 React.createElement(Router, {history: hashHistory}, 
@@ -53140,6 +53249,7 @@ ReactDOM.render(
                      React.createElement(IndexRoute, {component: Home}), 
                      React.createElement(Route, {path: "authors", component: AuthorPage}), 
                      React.createElement(Route, {path: "about", component: About}), 
+                     React.createElement(Route, {path: "addAuthor", component: ManageAuthorPage}), 
                      React.createElement(Redirect, {from: "awthors", to: "authors"}), 
                      React.createElement(Redirect, {from: "about-us", to: "about"}), 
                      React.createElement(Redirect, {from: "about/*", to: "about"}), 
@@ -53148,7 +53258,7 @@ ReactDOM.render(
 
                 ),document.getElementById('app')
 );
-},{"./components/Main.js":241,"./components/NotFoundPage.js":242,"./components/aboutPage.js":243,"./components/authorPage.js":244,"./components/header.js":245,"./components/homePage.js":246,"jquery":23,"react":237,"react-dom":27,"react-router":57}],248:[function(require,module,exports){
+},{"./components/Main.js":242,"./components/NotFoundPage.js":243,"./components/aboutPage.js":244,"./components/authorPage.js":245,"./components/header.js":246,"./components/homePage.js":247,"./components/manageAuthorPage.js":248,"jquery":23,"react":237,"react-dom":27,"react-router":57}],251:[function(require,module,exports){
 "use strict";
 //This is just a way to mock out an API to pretend that we're interacting with server
 //This file is mocking a web API by hitting hard coded data
@@ -53158,7 +53268,7 @@ var _ = require('lodash');
 //This could be performed on the server in a real app.Just stubbing in
 
 var _generateId = function(author){
-  return authors.firstName.toLowerCase() + '-' + authors.lastName.toLowerCase();
+  return author.firstName.toLowerCase() + '-' + author.lastName.toLowerCase();
 };
 
 var _clone = function(item){
@@ -53178,7 +53288,7 @@ var AuthorAPI = {
     //Pretend an AJAX calll to web API is made here
     console.log("Pretend this just saved the author to the DB via AJAX call");
 
-    if(authors.id){
+    if(author.id){
       var existingAuthorIndex = _.indexOf(authors, _.find(authors, {id: author.id}));
       authors.splice(existingAuthorIndex, 1, author);
     }else{
@@ -53193,7 +53303,7 @@ var AuthorAPI = {
   }
 };
 module.exports = AuthorAPI;
-},{"./authorData":249,"lodash":24}],249:[function(require,module,exports){
+},{"./authorData":252,"lodash":24}],252:[function(require,module,exports){
 module.exports = {
   authors: [
     {
@@ -53213,4 +53323,4 @@ module.exports = {
     }
   ]
 };
-},{}]},{},[247]);
+},{}]},{},[250]);

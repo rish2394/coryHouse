@@ -2,7 +2,7 @@
 var React = require('react');
 var AuthorAPI = require('../mockAPI/authorAPI');
 var AuthorList = require('./AuthorList');
-
+var Link = require('react-router').Link;
 var AuthorPage = React.createClass({
     getInitialState: function(){
       return {
@@ -24,6 +24,7 @@ var AuthorPage = React.createClass({
     return (
       <div>
           <h1>Authors</h1>
+          <Link to='/addAuthor' className='btn btn-default'>Add Author</Link>
           <table className='table'>
               <thead>
               <tr>

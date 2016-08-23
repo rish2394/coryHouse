@@ -3,11 +3,17 @@ var React = require('react');
 
 var About = React.createClass({
   statics: {
-    onEnter: function(location, replaceWith){
-
+    willTransitionTo: function(transition, param, query, callback){
+          if(!confirm('Are you sure you read a page that\'s this boring/')){
+               transition.abort();
+          }else{
+            callback();
+          }
     },
-    onLeave: function(){
-
+    willTransitionFrom: function(transition, component){
+          if(!confirm('Are you sure to leave this page?')){
+              transition.abort();
+          }
     }
   },
    render: function(){
